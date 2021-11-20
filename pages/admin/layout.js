@@ -44,7 +44,7 @@ const Layout = () => {
             <div className="bg-white h-full dark:bg-gray-700">
                 <div className="flex items-center justify-start pt-6 ml-8">
                     <p className="font-bold dark:text-white text-xl">
-                     Layout
+                     Dashboard
                     </p>
                 </div>
                 <nav className="mt-6">
@@ -68,7 +68,7 @@ const Layout = () => {
                                 </svg>
                             </span>
                             <span className="mx-2 text-sm font-normal">
-                                Refered Projects
+                                Companies
                                 <span className="p-1 ml-4 rounded-lg w-4 h-2 bg-gray-200 text-gray-400 text-xs">
                                     0
                                 </span>
@@ -82,7 +82,7 @@ const Layout = () => {
                                 </svg>
                             </span>
                             <span className="mx-4 text-sm font-normal">
-                                Resources
+                                Job Seekers
                             </span>
                         </a>
                         <a className="w-full text-gray-400 flex items-center pl-6 p-2 my-2 transition-colors duration-200 justify-start hover:text-gray-800 border-l-4 border-transparent" href="#">

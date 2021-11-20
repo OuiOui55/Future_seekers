@@ -42,16 +42,11 @@ function CheckIcon(props) {
 
 export default function login(){
 
-
-
-
   const [selected, setSelected] = useState(userType[0])
 
   //SET REFERENCES TO EMAIL AND PASSWORD
   const emailRef = useRef()
   const passwordRef = useRef()
-
-
   const router = useRouter()
 
 
@@ -59,11 +54,9 @@ export default function login(){
 
     //PREVENTS  REFRESHING OF PAGE
     event.preventDefault();
-
     // GETS THE CURRENT VALUE OF THE REFERENCES AND ASSIGNS IT TO THE CORRESPONDING CONSTANTS
     const enteredEmail = emailRef.current.value;
-    const enteredPassword = passwordRef.current.value;
-   
+    const enteredPassword = passwordRef.current.value; 
     const reqBody = { email: enteredEmail, password: enteredPassword , userType: selected.name}
 
     
@@ -122,8 +115,8 @@ export default function login(){
               <form onSubmit={submitFormHandler}>
                 <div className="relative z-10 h-auto p-8 py-10 overflow-hidden bg-white border-b-2 border-gray-300 rounded-lg shadow-2xl px-7">
                     <h3 className="mb-6 text-2xl font-medium text-center">Sign in to your Account</h3>
-                    <input type="text" name="email" className="block w-full px-4 py-3 mb-4 border border-2 border-transparent border-gray-200 rounded-lg focus:ring focus:ring-blue-500 focus:outline-none" placeholder="Email address" ref={emailRef}/>
-                    <input type="password" name="password" className="block w-full px-4 py-3 mb-4 border border-2 border-transparent border-gray-200 rounded-lg focus:ring focus:ring-blue-500 focus:outline-none" placeholder="Password" ref={passwordRef}/>
+                    <input type="text" name="email" className="block w-full px-4 py-3 mb-4 border border-2 border-transparent border-gray-200 rounded-lg focus:ring focus:ring-blue-500 focus:outline-none" placeholder="Email address" ref={emailRef} required/>
+                    <input type="password" name="password" className="block w-full px-4 py-3 mb-4 border border-2 border-transparent border-gray-200 rounded-lg focus:ring focus:ring-blue-500 focus:outline-none" placeholder="Password" ref={passwordRef} required/>
                     
                     {/* select group */}
 
