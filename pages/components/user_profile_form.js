@@ -1,16 +1,52 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
+import {useRouter} from 'next/router'
+
 const Index = () => {
 
+    const router = useRouter()
 
+    const [firstName, setFirstName] = useState();
+    const [lastName, setLastName] = useState();
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+    const [streetAddress, setStreetAddress] = useState();
+    const [city , setCity] = useState();
+    const [province, setProvince] = useState();
+    const [country , setCountry] = useState();
+    const [zipCode, setZipCode] = useState();
+    const [description, setDescription] = useState();
+  
    
+    useEffect(()=>{
+
     
+    }, [])
     
     const handleSubmit = (event) => {
         event.preventDefault();
+
+        const reqBody = {firstName: firstName, lastName:lastName, email: email, password:password, userType:'company', street: streetAddress, city: city,  state: province, country:country, zipCode: zipCode, description: description };
         
-        console.log(description)
-        // console.log("payload", payload);
-        // Place your API call here to submit your payload.
+        //sends request to backend
+        fetch('/api/organization/register',{
+            method: 'POST',
+            body: JSON.stringify(reqBody),
+            headers: {
+                'Content-Type': 'application/json',
+              }
+        }).then(response => response.json())
+        .then((data)=> localStorage.setItem("userInfo", JSON.stringify(data)))
+      .then(()=>{
+       
+        let userInfo = JSON.parse(localStorage.getItem("userInfo"))
+      if (userInfo.userType === 'company'){
+        router.push('/components/payment')
+      }else{
+        console.log('user is not a company')
+      }
+    
+       })
+        
     };
     return (
         <form id="login" onSubmit={handleSubmit}>
@@ -84,13 +120,19 @@ const Index = () => {
                                 <label htmlFor="FirstName" className="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">
                                     First Name
                                 </label>
-                                <input type="text" id="FirstName" name="firstName" required className="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm bg-transparent rounded text-sm focus:outline-none focus:border-indigo-700 placeholder-gray-500 text-gray-500 dark:text-gray-400"  />
+                                <input type="text" id="FirstName" name="firstName" required className="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm bg-transparent rounded text-sm focus:outline-none focus:border-indigo-700 placeholder-gray-500 text-gray-500 dark:text-gray-400" onChange={(e)=>{setFirstName(e.target.value)}} />
                             </div>
                             <div className="xl:w-1/4 lg:w-1/2 md:w-1/2 flex flex-col mb-6">
                                 <label htmlFor="LastName" className="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">
                                     Last Name
                                 </label>
-                                <input type="text" id="LastName" name="lastName" required className="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm bg-transparent rounded text-sm focus:outline-none focus:border-indigo-700 placeholder-gray-500 text-gray-500 dark:text-gray-400"  />
+                                <input type="text" id="LastName" name="lastName" required className="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm bg-transparent rounded text-sm focus:outline-none focus:border-indigo-700 placeholder-gray-500 text-gray-500 dark:text-gray-400" onChange={(e)=>{setLastName(e.target.value)}} />
+                            </div>
+                            <div className="xl:w-1/4 lg:w-1/2 md:w-1/2 flex flex-col mb-6">
+                                <label htmlFor="Password" className="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">
+                                    Password
+                                </label>
+                                <input type="password" id="Password" name="password" required className="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm bg-transparent rounded text-sm focus:outline-none focus:border-indigo-700 placeholder-gray-500 text-gray-500 dark:text-gray-400" onChange={(e)=>{setPassword(e.target.value)}} />
                             </div>
                             <div className="xl:w-1/4 lg:w-1/2 md:w-1/2 flex flex-col mb-6">
                                 <label htmlFor="Email" className="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">
@@ -104,7 +146,7 @@ const Index = () => {
                                             <polyline points="3 7 12 13 21 7" />
                                         </svg>
                                     </div>
-                                    <input type="text" id="Email" name="email" required className="pl-3 py-3 w-full text-sm focus:outline-none placeholder-gray-500 rounded bg-transparent text-gray-500 dark:text-gray-400" placeholder="example@gmail.com" />
+                                    <input type="text" id="Email" name="email" required className="pl-3 py-3 w-full text-sm focus:outline-none placeholder-gray-500 rounded bg-transparent text-gray-500 dark:text-gray-400" placeholder="example@gmail.com" onChange={(e)=>{setEmail(e.target.value)}}/>
                                 </div>
                                 <div className="flex justify-between items-center pt-1 text-green-400">
                                     <p className="text-xs">Email submission success!</p>
@@ -126,14 +168,14 @@ const Index = () => {
                                 <label htmlFor="StreetAddress" className="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">
                                     Street Address
                                 </label>
-                                <input type="text" id="StreetAddress" name="streetAddress" required className="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm rounded bg-transparent text-sm focus:outline-none focus:border-indigo-700 placeholder-gray-500 text-gray-500 dark:text-gray-400"  />
+                                <input type="text" id="StreetAddress" name="streetAddress" required className="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm rounded bg-transparent text-sm focus:outline-none focus:border-indigo-700 placeholder-gray-500 text-gray-500 dark:text-gray-400" onChange={(e)=>{setStreetAddress(e.target.value)}} />
                             </div>
                             <div className="xl:w-1/4 lg:w-1/2 md:w-1/2 flex flex-col mb-6">
                                 <label htmlFor="City" className="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">
                                     City
                                 </label>
                                 <div className="border border-gray-300 dark:border-gray-700 shadow-sm rounded flex">
-                                    <input type="text" id="City" name="city" required className="pl-3 py-3 w-full text-sm focus:outline-none border border-transparent focus:border-indigo-700 bg-transparent rounded placeholder-gray-500 text-gray-500 dark:text-gray-400" placeholder="Los Angeles" />
+                                    <input type="text" id="City" name="city" required className="pl-3 py-3 w-full text-sm focus:outline-none border border-transparent focus:border-indigo-700 bg-transparent rounded placeholder-gray-500 text-gray-500 dark:text-gray-400" placeholder="Los Angeles" onChange={(e)=>{setCity(e.target.value)}}/>
                                     <div className="px-4 flex items-center border-l border-gray-300 dark:border-gray-700 flex-col justify-center text-gray-500 dark:text-gray-400">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-chevron-up" width={16} height={16} viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" />
@@ -150,13 +192,13 @@ const Index = () => {
                                 <label htmlFor="State/Province" className="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">
                                     State/Province
                                 </label>
-                                <input type="text" id="State/Province" name="state" required className="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm bg-transparent rounded text-sm focus:outline-none focus:border-indigo-700 placeholder-gray-500 text-gray-500 dark:text-gray-400" placeholder="California" />
+                                <input type="text" id="State/Province" name="state" required className="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm bg-transparent rounded text-sm focus:outline-none focus:border-indigo-700 placeholder-gray-500 text-gray-500 dark:text-gray-400" placeholder="California"  onChange={(e)=>{setProvince(e.target.value)}}/>
                             </div>
                             <div className="xl:w-1/4 lg:w-1/2 md:w-1/2 flex flex-col mb-6">
                                 <label htmlFor="Country" className="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">
                                     Country
                                 </label>
-                                <input type="text" id="Country" name="country" required className="border bg-transparent border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm rounded text-sm focus:outline-none focus:border-indigo-700 placeholder-gray-500 text-gray-500 dark:text-gray-400" placeholder="United States" />
+                                <input type="text" id="Country" name="country" required className="border bg-transparent border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm rounded text-sm focus:outline-none focus:border-indigo-700 placeholder-gray-500 text-gray-500 dark:text-gray-400" placeholder="United States" onChange={e=>{setCountry(e.target.value)}}/>
                             </div>
                             <div className="xl:w-1/4 lg:w-1/2 md:w-1/2 flex flex-col mb-6">
                                 <div className="flex items-center pb-2">
@@ -169,7 +211,7 @@ const Index = () => {
                                         </svg>
                                     </div>
                                 </div>
-                                <input type="text" name="zip" required id="ZIP" className="bg-transparent border border-red-400 pl-3 py-3 shadow-sm rounded text-sm focus:outline-none focus:border-indigo-700 placeholder-gray-500 text-gray-500 dark:text-gray-400" placeholder={86745} />
+                                <input type="text" name="zip" required id="ZIP" className="bg-transparent border border-red-400 pl-3 py-3 shadow-sm rounded text-sm focus:outline-none focus:border-indigo-700 placeholder-gray-500 text-gray-500 dark:text-gray-400" placeholder={86745} onChange={e=>{setZipCode(e.target.value)}}/>
                                 <div className="flex justify-between items-center pt-1 text-red-400">
                                     <p className="text-xs">Incorrect Zip Code</p>
                                     <svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="feather feather-x-circle">
@@ -194,46 +236,7 @@ const Index = () => {
                         </div>
                     </div>
                     <div className="container mx-auto pb-6">
-                        <div className="flex items-center pb-4 border-b border-gray-300 dark:border-gray-700 px-8 text-gray-800 dark:text-gray-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-mail" width={20} height={20} viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" />
-                                <rect x={3} y={5} width={18} height={14} rx={2} />
-                                <polyline points="3 7 12 13 21 7" />
-                            </svg>
-                            <p className="text-sm font-bold ml-2 text-gray-800 dark:text-gray-100">Via Email</p>
-                        </div>
-                        <div className="px-8">
-                            <div className="flex justify-between items-center mb-8 mt-4">
-                                <div className="w-9/12">
-                                    <p className="text-sm text-gray-800 dark:text-gray-100 pb-1">Comments</p>
-                                    <p className="text-sm text-gray-500 dark:text-gray-400">Get notified when a post or comment is made</p>
-                                </div>
-                                <div className="cursor-pointer rounded-full bg-gray-200 relative shadow-sm">
-                                    <input type="checkbox" name="email_comments" id="toggle1" className="focus:outline-none checkbox w-6 h-6 rounded-full bg-white dark:bg-gray-400 absolute shadow-sm appearance-none cursor-pointer border border-transparent top-0 bottom-0 m-auto" />
-                                    <label htmlFor="toggle1" className="toggle-label block w-12 h-4 overflow-hidden rounded-full bg-gray-300 dark:bg-gray-800 cursor-pointer" />
-                                </div>
-                            </div>
-                            <div className="flex justify-between items-center mb-8">
-                                <div className="w-9/12">
-                                    <p className="text-sm text-gray-800 dark:text-gray-100 pb-1">Job Applications</p>
-                                    <p className="text-sm text-gray-500 dark:text-gray-400">Get notified when a candidate applies to a job posting</p>
-                                </div>
-                                <div className="cursor-pointer rounded-full bg-gray-200 relative shadow-sm">
-                                    <input type="checkbox" name="email_job_application" id="toggle2" className="focus:outline-none checkbox w-6 h-6 rounded-full bg-white dark:bg-gray-400 absolute shadow-sm appearance-none cursor-pointer border border-transparent top-0 bottom-0 m-auto" />
-                                    <label htmlFor="toggle2" className="toggle-label block w-12 h-4 overflow-hidden rounded-full bg-gray-300 dark:bg-gray-800 cursor-pointer" />
-                                </div>
-                            </div>
-                            <div className="flex justify-between items-center mb-8">
-                                <div className="w-9/12">
-                                    <p className="text-sm text-gray-800 dark:text-gray-100 pb-1">Product Updates</p>
-                                    <p className="text-sm text-gray-500 dark:text-gray-400">Get notifitied when there is a new product feature or upgrades</p>
-                                </div>
-                                <div className="cursor-pointer rounded-full bg-gray-200 relative shadow-sm">
-                                    <input type="checkbox" name="email_product_update" id="toggle3" className="focus:outline-none checkbox w-6 h-6 rounded-full bg-white dark:bg-gray-400 absolute shadow-sm appearance-none cursor-pointer border border-transparent top-0 bottom-0 m-auto" />
-                                    <label htmlFor="toggle3" className="toggle-label block w-12 h-4 overflow-hidden rounded-full bg-gray-300 dark:bg-gray-800 cursor-pointer" />
-                                </div>
-                            </div>
-                        </div>
+                        
                         <div className="pb-4 border-b border-gray-300 dark:border-gray-700 px-8">
                             <div className="flex items-center text-gray-800 dark:text-gray-100">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-bell" width={20} height={20} viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -280,8 +283,8 @@ const Index = () => {
                 </div>
                 <div className="container mx-auto w-11/12 xl:w-full">
                     <div className="w-full py-4 sm:px-0 bg-white dark:bg-gray-800 flex justify-end">
-                        <button className="bg-gray-200 focus:outline-none transition duration-150 ease-in-out hover:bg-gray-300 dark:bg-gray-700 rounded text-indigo-600 dark:text-indigo-600 px-6 py-2 text-xs mr-4">Cancel</button>
-                        <button className="bg-indigo-700 focus:outline-none transition duration-150 ease-in-out hover:bg-indigo-600 rounded text-white px-8 py-2 text-sm" type="submit">
+                        <button className="bg-gray-200 focus:outline-none transition duration-150 ease-in-out hover:bg-gray-300 dark:bg-gray-700 rounded text-indigo-600 dark:text-indigo-600 px-6 py-2 text-xs mr-4" onClick={()=>{router.push('/')}}>Cancel</button>
+                        <button className="bg-indigo-700 focus:outline-none transition duration-150 ease-in-out hover:bg-indigo-600 rounded text-white px-8 py-2 text-sm" type="submit" onClick={handleSubmit}>
                             Save
                         </button>
                     </div>
